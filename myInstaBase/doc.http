@@ -6,10 +6,10 @@ POST http://127.0.0.1:8000/auth/registration/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username":"Bird",
+    "username":"Mouse",
     "password1":"qwe+12345",
     "password2":"qwe+12345",
-    "email":"bird@mail.ru"
+    "email":"mouse@mail.ru"
 }
 
 #
@@ -22,7 +22,7 @@ POST http://127.0.0.1:8000/auth/login/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username":"Bird",
+    "username":"Cat",
     "password":"qwe+12345"
 }
 
@@ -31,10 +31,17 @@ Content-Type: application/json
 ### GetInfo
 GET http://127.0.0.1:8000/api/video/2/ HTTP/1.1
 Content-Type: application/json
-Authorization: Token 31948ede3a755a4181e1234be3e398cf7fb1e8bc
+Authorization: Token 4350a65e885a7514a5e8ae30e47c08eacf09965d
 
 
 ### GetInfo cooments
 GET http://127.0.0.1:8000/api/comments/?video=1 HTTP/1.1
 Content-Type: application/json
-Authorization: Token 31948ede3a755a4181e1234be3e398cf7fb1e8bc
+Authorization: Token 4350a65e885a7514a5e8ae30e47c08eacf09965d
+
+### CheckUser
+GET http://127.0.0.1:8000/api/users/?username=Cat HTTP/1.1
+Content-Type: application/json
+Authorization: Token 4350a65e885a7514a5e8ae30e47c08eacf09965d
+
+

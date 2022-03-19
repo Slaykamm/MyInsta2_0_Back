@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
-from storage.serializer import VideoDetailSerializer, VideoViewSerializer, AuthorDetailSerializer, AuthorViewSerializer, CommentsDetailSerializer, CommentsViewSerializer, UsersDetailSerializer, UsersViewSerializer
-from storage.models import Video, Author, Comments, User
+from storage.serializer import VideoDetailSerializer, VideoViewSerializer, AuthorDetailSerializer, AuthorViewSerializer, CommentsDetailSerializer, CommentsViewSerializer, UsersDetailSerializer, UsersViewSerializer 
+from storage.serializer import QuotationsCommentsArrayDetailSerializer, QuotationsCommentsArrayViewSerializer, PrivateMessageDetailSerializer, PrivateMessageViewSerializer, PrivateRoomDetailSerializer, PrivateRoomViewSerializer
+from storage.models import Video, Author, Comments, User, QuotationsCommentsArray, PrivateMessage, PrivateRoom
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
@@ -89,7 +90,7 @@ class CommentsDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class CommentsViewSet(viewsets.ModelViewSet):
-   permission_classes=[IsAuthenticated]
+   #permission_classes=[IsAuthenticated]
    queryset = Comments.objects.all()
 
    serializer_class = CommentsViewSerializer
@@ -120,6 +121,37 @@ class CommentsViewSet(viewsets.ModelViewSet):
         else:
             return Comments.objects.all()
 
+
+##--------------------QUAOTATIONSSSSSSSSSSSS
+class QuotationsCommentsArrayViewSet(viewsets.ModelViewSet):
+   #permission_classes=[IsAuthenticated]
+   queryset = QuotationsCommentsArray.objects.all()
+
+   serializer_class = QuotationsCommentsArrayViewSerializer
+
+   def get_queryset(self, **kwargs):
+        id =  self.request.query_params.get('id', None)
+        baseComment =  self.request.query_params.get('baseComment', None)
+        quotedCommentID = self.request.query_params.get('quotedCommentID', None)  
+
+
+
+        if id:
+            return QuotationsCommentsArray.objects.filter(id=id)
+
+        elif baseComment:
+            return QuotationsCommentsArray.objects.filter(baseComment=baseComment)
+
+        elif quotedCommentID:
+            return QuotationsCommentsArray.objects.filter(quotedCommentID=quotedCommentID)
+
+            
+        else:
+            return QuotationsCommentsArray.objects.all()
+
+
+
+
 # ------------------------------USERS----------------
 
 class UsersCreateView(generics.CreateAPIView):
@@ -133,7 +165,7 @@ class UsersDetailView(generics.RetrieveUpdateDestroyAPIView):
 class UsersViewSet(viewsets.ModelViewSet):
    queryset = User.objects.all()
    serializer_class = UsersViewSerializer
-
+   #permission_classes=[IsAuthenticated]
 
    def get_queryset(self, **kwargs):
         id =  self.request.query_params.get('id', None)
@@ -171,3 +203,102 @@ class UsersViewSet(viewsets.ModelViewSet):
 
         else:
             return User.objects.all()
+
+
+
+##--------------------QUAOTATIONSSSSSSSSSSSS
+class QuotationsCommentsArrayViewSet(viewsets.ModelViewSet):
+   #permission_classes=[IsAuthenticated]
+   queryset = QuotationsCommentsArray.objects.all()
+
+   serializer_class = QuotationsCommentsArrayViewSerializer
+
+   def get_queryset(self, **kwargs):
+        id =  self.request.query_params.get('id', None)
+        baseComment =  self.request.query_params.get('baseComment', None)
+        quotedCommentID = self.request.query_params.get('quotedCommentID', None)  
+
+
+
+        if id:
+            return QuotationsCommentsArray.objects.filter(id=id)
+
+        elif baseComment:
+            return QuotationsCommentsArray.objects.filter(baseComment=baseComment)
+
+        elif quotedCommentID:
+            return QuotationsCommentsArray.objects.filter(quotedCommentID=quotedCommentID)
+
+            
+        else:
+            return QuotationsCommentsArray.objects.all()
+
+
+# ------------------------------Message Rooms--------- PrivateRoom-------
+
+class PrivateRoomCreateView(generics.CreateAPIView):
+    serializer_class =  PrivateRoomDetailSerializer
+
+
+class PrivateRoomDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PrivateRoomDetailSerializer
+    queryset = PrivateRoom.objects.all()    
+
+class PrivateRoomViewSet(viewsets.ModelViewSet):
+   queryset = PrivateRoom.objects.all()
+   serializer_class = PrivateRoomViewSerializer
+   #permission_classes=[IsAuthenticated]
+
+   def get_queryset(self, **kwargs):
+        id =  self.request.query_params.get('id', None)
+        privateRoomMembers =  self.request.query_params.get('privateRoomMembers', None)
+        privateChatName = self.request.query_params.get('privateChatName', None)  
+
+        if id:
+            return PrivateRoom.objects.filter(id=id)
+
+        elif privateRoomMembers:
+            return PrivateRoom.objects.filter(privateRoomMembers=privateRoomMembers)
+
+        elif privateChatName:
+            return PrivateRoom.objects.filter(privateChatName=privateChatName)
+
+        else:
+            return PrivateRoom.objects.all()
+
+
+# ------------------------------Message Rooms--------- PrivateMessage-------
+
+class PrivateMessageCreateView(generics.CreateAPIView):
+    serializer_class =  PrivateMessageDetailSerializer
+
+
+class PrivateMessageDetailView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = PrivateMessageDetailSerializer
+    queryset = PrivateMessage.objects.all()    
+
+class PrivateMessageViewSet(viewsets.ModelViewSet):
+   queryset = PrivateMessage.objects.all()
+   serializer_class = PrivateMessageViewSerializer
+   #permission_classes=[IsAuthenticated]
+
+   def get_queryset(self, **kwargs):
+        id =  self.request.query_params.get('id', None)
+        author =  self.request.query_params.get('author', None)
+        text = self.request.query_params.get('text', None)  
+        privateRoom = self.request.query_params.get('privateRoom', None)  
+
+        if id:
+            return PrivateMessage.objects.filter(id=id)
+
+        elif author:
+            return PrivateMessage.objects.filter(author=author)
+
+        elif text:
+            return PrivateMessage.objects.filter(text=text)
+        
+        elif privateRoom:
+            return PrivateMessage.objects.filter(privateRoom=privateRoom)
+
+        else:
+            return PrivateMessage.objects.all()

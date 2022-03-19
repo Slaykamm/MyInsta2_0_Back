@@ -3,6 +3,8 @@ from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
 
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Author(models.Model):
@@ -18,7 +20,7 @@ class Author(models.Model):
 
 class Video(models.Model):
     title = models.CharField(verbose_name='Name', unique=True, max_length=128)
-    author = models.ForeignKey(Author, on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     video = models.FileField(
         upload_to='video/',
         blank=True,
@@ -29,6 +31,7 @@ class Video(models.Model):
     rating = models.IntegerField(default = 0)
     description = models.TextField()
     create_at = models.DateTimeField(auto_now_add=True)
+    
 
     def like(self):
         self.rating += 1
@@ -41,12 +44,14 @@ class Video(models.Model):
         return self.title
 
 
+
 class Comments(models.Model):
-    author = models.ForeignKey(Author, on_delete=models.CASCADE) 
+    author = models.ForeignKey(User, on_delete=models.CASCADE) 
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='+')
     text = models.TextField()
     rating = models.IntegerField(default = 0)
     create_at = models.DateTimeField(auto_now_add=True)
+
 
     def __str__(self):
         return self.text
@@ -58,3 +63,28 @@ class Comments(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
+class QuotationsCommentsArray(models.Model):
+    baseComment = models.ForeignKey(Comments, on_delete=models.CASCADE)
+    quotedCommentID = models.IntegerField()
+    
+
+class PrivateRoom(models.Model):
+    privateRoomMembers = models.ManyToManyField(User, blank=True)
+    privateChatName = models.CharField(max_length=64, unique=True)
+    lastOpenDate = models.DateTimeField(blank=True)
+
+    # или сюда дату последнего открывания. Если дата раньше ласт логин то сообщения светим 
+
+    def __str__(self):
+        return self.privateChatName
+
+class PrivateMessage(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    privateRoom = models.ForeignKey(PrivateRoom, on_delete=models.CASCADE)
+    create_at = models.DateTimeField(auto_now_add=True)
+    # подумать добавить сюда? или проще сделать. Е
+
+    def __str__(self):
+        return self.text

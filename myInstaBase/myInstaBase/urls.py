@@ -25,6 +25,9 @@ router.register(r'api/video', views.VideoViewSet)
 router.register(r'api/author', views.AuthorViewSet)
 router.register(r'api/comments', views.CommentsViewSet)
 router.register(r'api/users', views.UsersViewSet)
+router.register(r'api/quotations', views.QuotationsCommentsArrayViewSet)
+router.register(r'api/privaterooms', views.PrivateRoomViewSet)
+router.register(r'api/prvatemessages', views.PrivateMessageViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
