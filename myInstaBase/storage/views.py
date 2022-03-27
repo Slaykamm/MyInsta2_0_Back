@@ -1,3 +1,4 @@
+from venv import create
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
@@ -265,6 +266,18 @@ class PrivateRoomViewSet(viewsets.ModelViewSet):
 
         else:
             return PrivateRoom.objects.all()
+
+   def post(self, request, *args, **Kwargs):
+        print('ya tutta request', request)
+        id = self.kwargs['pk']
+        print('ya tutta', id)
+        if PrivateRoom.objects.filter(id=id).exists():
+            return PrivateRoom.objects.filter(id=id)
+        # else:
+        #     PrivateRoom.objects.create(privateChatName=) 
+
+
+
 
 
 # ------------------------------Message Rooms--------- PrivateMessage-------
