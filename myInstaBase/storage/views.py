@@ -3,8 +3,8 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import viewsets
 from storage.serializer import VideoDetailSerializer, VideoViewSerializer, AuthorDetailSerializer, AuthorViewSerializer, CommentsDetailSerializer, CommentsViewSerializer, UsersDetailSerializer, UsersViewSerializer 
-from storage.serializer import QuotationsCommentsArrayDetailSerializer, QuotationsCommentsArrayViewSerializer, PrivateMessageDetailSerializer, PrivateMessageViewSerializer, PrivateRoomDetailSerializer, PrivateRoomViewSerializer
-from storage.models import Video, Author, Comments, User, QuotationsCommentsArray, PrivateMessage, PrivateRoom
+from storage.serializer import CommentsQuotationsDetailSerializer, CommentsQuotationsViewSerializer, PrivateMessageDetailSerializer, PrivateMessageViewSerializer, PrivateRoomDetailSerializer, PrivateRoomViewSerializer
+from storage.models import Video, Author, Comments, User, CommentsQuotations, PrivateMessage, PrivateRoom
 from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
@@ -124,31 +124,37 @@ class CommentsViewSet(viewsets.ModelViewSet):
 
 
 ##--------------------QUAOTATIONSSSSSSSSSSSS
-class QuotationsCommentsArrayViewSet(viewsets.ModelViewSet):
+class CommentsQuotationsViewSet(viewsets.ModelViewSet):
    #permission_classes=[IsAuthenticated]
-   queryset = QuotationsCommentsArray.objects.all()
+   queryset = CommentsQuotations.objects.all()
 
-   serializer_class = QuotationsCommentsArrayViewSerializer
+   serializer_class = CommentsQuotationsViewSerializer
 
    def get_queryset(self, **kwargs):
         id =  self.request.query_params.get('id', None)
         baseComment =  self.request.query_params.get('baseComment', None)
-        quotedCommentID = self.request.query_params.get('quotedCommentID', None)  
-
+        author = self.request.query_params.get('author', None)  
+        text = self.request.query_params.get('text', None)  
+        create_at = self.request.query_params.get('create_at', None)  
 
 
         if id:
-            return QuotationsCommentsArray.objects.filter(id=id)
+            return CommentsQuotations.objects.filter(id=id)
 
         elif baseComment:
-            return QuotationsCommentsArray.objects.filter(baseComment=baseComment)
+            return CommentsQuotations.objects.filter(baseComment=baseComment)
 
-        elif quotedCommentID:
-            return QuotationsCommentsArray.objects.filter(quotedCommentID=quotedCommentID)
+        elif author:
+            return CommentsQuotations.objects.filter(author=author)
 
-            
+        elif text:
+            return CommentsQuotations.objects.filter(text=text)
+
+        elif create_at:
+            return CommentsQuotations.objects.filter(create_at=create_at)
+
         else:
-            return QuotationsCommentsArray.objects.all()
+            return CommentsQuotations.objects.all()
 
 
 
@@ -206,33 +212,6 @@ class UsersViewSet(viewsets.ModelViewSet):
             return User.objects.all()
 
 
-
-##--------------------QUAOTATIONSSSSSSSSSSSS
-class QuotationsCommentsArrayViewSet(viewsets.ModelViewSet):
-   #permission_classes=[IsAuthenticated]
-   queryset = QuotationsCommentsArray.objects.all()
-
-   serializer_class = QuotationsCommentsArrayViewSerializer
-
-   def get_queryset(self, **kwargs):
-        id =  self.request.query_params.get('id', None)
-        baseComment =  self.request.query_params.get('baseComment', None)
-        quotedCommentID = self.request.query_params.get('quotedCommentID', None)  
-
-
-
-        if id:
-            return QuotationsCommentsArray.objects.filter(id=id)
-
-        elif baseComment:
-            return QuotationsCommentsArray.objects.filter(baseComment=baseComment)
-
-        elif quotedCommentID:
-            return QuotationsCommentsArray.objects.filter(quotedCommentID=quotedCommentID)
-
-            
-        else:
-            return QuotationsCommentsArray.objects.all()
 
 
 # ------------------------------Message Rooms--------- PrivateRoom-------

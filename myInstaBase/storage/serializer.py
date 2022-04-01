@@ -1,6 +1,6 @@
 from dataclasses import field
 from rest_framework import serializers
-from storage.models import Video, Author, Comments, User, QuotationsCommentsArray, PrivateRoom, PrivateMessage
+from storage.models import Video, Author, Comments, User, CommentsQuotations, PrivateRoom, PrivateMessage
 
 
 
@@ -77,21 +77,21 @@ class UsersViewSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-#--------------QuotationsCommentsArray
+#--------------CommentsQuotations
 
-class QuotationsCommentsArrayDetailSerializer(serializers.ModelSerializer):
+class CommentsQuotationsDetailSerializer(serializers.ModelSerializer):
     class Meta:
-        model = QuotationsCommentsArray
+        model = CommentsQuotations
         fields = '__all__'
 
 
 
 # костылим 
 
-class QuotationsCommentsArrayViewSerializer(serializers.ModelSerializer):
+class CommentsQuotationsViewSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = QuotationsCommentsArray
+        model = CommentsQuotations
         fields = '__all__'
 
 

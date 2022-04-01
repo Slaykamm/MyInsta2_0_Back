@@ -47,7 +47,7 @@ class Video(models.Model):
 
 class Comments(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE) 
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name='+')
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
     text = models.TextField()
     rating = models.IntegerField(default = 0)
     create_at = models.DateTimeField(auto_now_add=True)
@@ -64,10 +64,13 @@ class Comments(models.Model):
         self.rating -= 1
         self.save()
 
-class QuotationsCommentsArray(models.Model):
+class CommentsQuotations(models.Model):
     baseComment = models.ForeignKey(Comments, on_delete=models.CASCADE)
-    quotedCommentID = models.IntegerField()
-    
+    author = models.ForeignKey(User, on_delete=models.CASCADE) 
+    text = models.TextField()
+    create_at = models.DateTimeField(blank=True)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)   
+
 
 class PrivateRoom(models.Model):
     privateRoomMembers = models.ManyToManyField(User, blank=True)
