@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
 from storage import views
+from storage.views import *
 
 router = routers.DefaultRouter()
 router.register(r'api/video', views.VideoViewSet)
@@ -38,7 +39,8 @@ urlpatterns = [
     path('', include(router.urls)),
   #  path('accounts/', include('allauth.urls')),
     path('auth/', include('dj_rest_auth.urls')),
-    path('auth/registration/', include('dj_rest_auth.registration.urls'))
+    path('auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/change-password/', ChangePasswordView.as_view(), name='change-password'),
 ]
 
 

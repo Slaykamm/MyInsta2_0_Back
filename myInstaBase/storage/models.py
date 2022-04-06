@@ -3,14 +3,18 @@ from tkinter import CASCADE
 from django.db import models
 from django.contrib.auth.models import User
 
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+#added for password change
+from rest_framework import serializers
+
 
 class Author(models.Model):
-    name = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
+    name = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, unique=True)
     avatar = models.ImageField(upload_to='avatar/', max_length = 100, blank=True)
-    phone = models.CharField(unique=True, max_length=12)
+    phone = models.CharField(unique=True, blank=True, max_length=20)
     
 
     def __str__(self):
@@ -87,7 +91,7 @@ class PrivateMessage(models.Model):
     text = models.TextField()
     privateRoom = models.ForeignKey(PrivateRoom, on_delete=models.CASCADE)
     create_at = models.DateTimeField(auto_now_add=True)
-    # подумать добавить сюда? или проще сделать. Е
 
     def __str__(self):
         return self.text
+
