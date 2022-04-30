@@ -28,7 +28,7 @@ class Video(models.Model):
     video = models.FileField(
         upload_to='video/',
         blank=True,
-        #validators=[FileExtensionValidator(allowed_extensions=['mp4', 'mkv'])]
+        validators=[FileExtensionValidator(allowed_extensions=['mp4', 'mkv'])]
     )
 
     image = models.ImageField(upload_to='preview/', blank=True)
@@ -80,6 +80,7 @@ class PrivateRoom(models.Model):
     privateRoomMembers = models.ManyToManyField(User, blank=True)
     privateChatName = models.CharField(max_length=64, unique=True)
     lastOpenDate = models.DateTimeField(blank=True)
+    privateChat = models.BooleanField(default=True, blank=True)
 
     # или сюда дату последнего открывания. Если дата раньше ласт логин то сообщения светим 
 

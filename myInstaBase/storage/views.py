@@ -93,10 +93,9 @@ class AuthorViewSet(viewsets.ModelViewSet):
         
         if len(request.FILES) !=0:
             file = request.FILES['imagefile']
-        #   fs = FileSystemStorage() #base_url='static/imagination', location='static/imagination') 
             print('request.FILES', request.FILES)
             print('file', file)
-        #  filename = fs.save(file.name, file)
+
             idd = self.kwargs['pk']
             newImageToBase = Author.objects.get(id = idd)
             print("000", idd, newImageToBase.name)
@@ -144,7 +143,24 @@ class VideoViewSet(viewsets.ModelViewSet):
             else:
                 return Video.objects.all()
 
+    def post(self, request, *args, **Kwargs):
+        
+        if len(request.FILES) !=0:
+            idd = self.kwargs['pk']
+            newImageToBase = Video.objects.get(id = idd)
 
+
+            if 'imagefile' in request.FILES:
+                file = request.FILES['imagefile']
+                newImageToBase.image = request.FILES['imagefile']
+                newImageToBase.save()
+            else:
+                file = request.FILES['videofile']
+                if file:
+                    newImageToBase.video = request.FILES['videofile']
+                    newImageToBase.save()
+
+        return HttpResponse({'message':'Video Preview added'}, status = 200)
 
 #Comments
 
