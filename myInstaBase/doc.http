@@ -6,10 +6,10 @@ POST http://127.0.0.1:8000/auth/registration/ HTTP/1.1
 Content-Type: application/json
 
 {
-    "username":"Cat",
+    "username":"Snake",
     "password1":"qwe+12345",
     "password2":"qwe+12345",
-    "email":"cat@mail.ru"
+    "email":"snake@mail.ru"
 }
 
 #
