@@ -46,15 +46,15 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
+    
 
-
+    'channels',
 
     'rest_framework',
     'rest_framework.authtoken',
 
     'dj_rest_auth'
 ]
-
 
 
 REST_FRAMEWORK = {
@@ -95,6 +95,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'myInstaBase.wsgi.application'
+ASGI_APPLICATION = 'myInstaBase.routing.application'
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG' : {
+            'hosts' : [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 
 # Database
