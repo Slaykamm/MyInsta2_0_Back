@@ -29,7 +29,6 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
 
         text_data_json = json.loads(text_data)
-        print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', text_data_json)
 
         PrivateMessage.objects.create(author = User.objects.get(id=text_data_json['user']), 
                                text = text_data_json['text'],  
