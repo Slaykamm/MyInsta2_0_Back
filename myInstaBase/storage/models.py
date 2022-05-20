@@ -51,7 +51,7 @@ class Video(models.Model):
 
 class Comments(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE) 
-    video = models.ForeignKey(Video, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video,  on_delete=models.CASCADE)
     text = models.TextField()
     rating = models.IntegerField(default = 0)
     create_at = models.DateTimeField(auto_now_add=True)
